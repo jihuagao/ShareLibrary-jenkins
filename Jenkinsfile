@@ -8,7 +8,7 @@ pipeline{
     agent any
 
     options{
-        timestamp()//日志会有时间
+        timestamps()//日志会有时间
     }
     stages{
         //下载代码

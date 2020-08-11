@@ -10,12 +10,14 @@ pipeline{
     agent any
     options{
         timestamps()
-        timeout(time:1,unit:'HOURS')
+        timeout(time:2,unit:'HOURS')
     }
     stages{
         stage("CheckOut"){
             steps{
-                checkout([$class: 'GitSCM', branches: [[name: "${branchName}"]], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: '9bda85f5-71b5-4b92-bbe9-d1031774f13c', url: '${srcUrl}']]])
+                timeout(time:1,unit:"HOURS"){
+                    checkout([$class: 'GitSCM', branches: [[name: "${branchName}"]], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: '9bda85f5-71b5-4b92-bbe9-d1031774f13c', url: '${srcUrl}']]])
+                } 
             }
         }
         stage("Build"){

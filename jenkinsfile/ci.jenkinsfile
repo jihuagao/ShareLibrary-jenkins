@@ -3,12 +3,19 @@
 def build = new org.devops.build()
 String buildType = "${env.buildType}"
 String buildShell = "${env.buildShell}"
+String srcUrl = "${env.srcUrl}"
+String branchName = "${env.branchName}"
 
 pipeline{
     agent any
     
     stages{
-        stage(build){
+        stage("CheckOut"){
+            steps{
+                checkout([$class: 'GitSCM', branches: [[name: "${branchName}"]], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: '9bda85f5-71b5-4b92-bbe9-d1031774f13c', url: '${srcUrl}']]])
+            }
+        }
+        stage("Build"){
             steps{
                 script{
                     build.Build(buildType,buildShell)

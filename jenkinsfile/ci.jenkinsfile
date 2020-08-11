@@ -1,6 +1,9 @@
 #!groovy
 @Library('jenkinslibrary@master') _
+
 def build = new org.devops.build()
+def tools = new org.devops.tools()
+
 String buildType = "${env.buildType}"
 String buildShell = "${env.buildShell}"
 String srcUrl = "${env.srcUrl}"
@@ -15,7 +18,11 @@ pipeline{
     stages{
         stage("CheckOut"){
             steps{
-                checkout([$class: 'GitSCM', branches: [[name: "${branchName}"]], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'CloneOption', noTags: false, reference: '', shallow: false, timeout: 60]], submoduleCfg: [], userRemoteConfigs: [[credentialsId: '9bda85f5-71b5-4b92-bbe9-d1031774f13c', url: "${srcUrl}"]]])
+                script{
+                    println("${branchName}")
+                    tools.PrintMes("获取代码","green")
+                    checkout([$class: 'GitSCM', branches: [[name: "${branchName}"]], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'CloneOption', noTags: false, reference: '', shallow: false, timeout: 60]], submoduleCfg: [], userRemoteConfigs: [[credentialsId: '9bda85f5-71b5-4b92-bbe9-d1031774f13c', url: "${srcUrl}"]]])
+                }
             }
         }
         stage("Build"){

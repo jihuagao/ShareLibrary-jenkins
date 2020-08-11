@@ -4,16 +4,16 @@ package org.devops
 def SonarScan(sonarServer,projectName,projectDesc,projectPath,branchName){
     
     //定义服务器列表
-    def servers = ["test":"sonarqube-test","prod":"sonarqube-prod"]
-    
+    //def servers = ["test":"sonarqube-test","prod":"sonarqube-prod"]
     
     withSonarQubeEnv("${servers[sonarServer]}"){
-        def scannerHome = "/usr/local/sonar-scanner"
+        //def scannerHome = "/usr/local/sonar-scanner"
         def sonarDate = sh  returnStdout: true, script: 'date  +%Y%m%d%H%M%S'
         sonarDate = sonarDate - "\n"
        
         sh """ 
-            ${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=${projectName} \
+            //${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=${projectName} \
+	    sonar-scanner -Dsonar.projectKey=${projectName} \
             -Dsonar.projectName=${projectName} \
 	    -Dsonar.projectVersion=${sonarDate} \
 	    -Dsonar.ws.timeout=30 \

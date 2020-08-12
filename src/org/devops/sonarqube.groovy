@@ -1,12 +1,12 @@
 package org.devops
 
 //scan
-def SonarScan(projectName,projectDesc,projectPath,branchName){
+def SonarScan(sonarServer,projectName,projectDesc,projectPath,branchName){
     
     //定义服务器列表
-    //def servers = ["test":"sonarqube-test","prod":"sonarqube-prod"]
+    def servers = ["test":"SonarQube","prod":"SonarQube"]
     
-    withSonarQubeEnv("SonarQube"){
+	withSonarQubeEnv("${server[sonarServer]}"){
         def scannerHome = "/usr/local/sonar-scanner"
         def sonarDate = sh  returnStdout: true, script: 'date  +%Y%m%d%H%M%S'
         sonarDate = sonarDate - "\n"
